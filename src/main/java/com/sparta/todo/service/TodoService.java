@@ -24,8 +24,8 @@ public class TodoService {
         // DB 저장
         Todo saveTodo = todoRespository.save(todo);
         // Entity -> ResponseDto
-        TodoResponseDto todoResponseDto = new TodoResponseDto(saveTodo);
-        return todoResponseDto;
+        return new TodoResponseDto(saveTodo);
+
     }
 
     public List<TodoResponseDto> getTodos() {
@@ -39,9 +39,7 @@ public class TodoService {
 
     @Transactional
     public Long updateTodo(Long todoId, TodoRequestDto todoRequestDto) {
-        Todo todo = todoRespository.findById(todoId).orElseThrow(() ->
-            new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
-        );
+        Todo todo = todoRespository.findById(todoId).orElseThrow(() -> new IllegalArgumentException("선택한 메모는 존재하지 않습니다."));
         todo.update(todoRequestDto);
         return todoId;
     }

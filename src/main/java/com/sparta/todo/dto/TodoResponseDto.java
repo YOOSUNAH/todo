@@ -11,7 +11,7 @@ public class TodoResponseDto {
     private Long todoId;
     private String title;
     private String contents;
-    private LocalDateTime date;
+    private LocalDateTime createdAt;
     private boolean isCompleted;
 
 
@@ -19,7 +19,7 @@ public class TodoResponseDto {
         this.todoId = todo.getTodoId();
         this.title = todo.getTitle();
         this.contents = todo.getContents();
-        this.date = todo.getDate();
+        this.createdAt = todo.getCreatedAt();
         this.isCompleted = todo.isCompleted();
     }
 

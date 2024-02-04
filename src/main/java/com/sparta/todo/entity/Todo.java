@@ -1,7 +1,7 @@
 package com.sparta.todo.entity;
 
 
-import com.sparta.todo.dto.TodoRequestDto;
+import com.sparta.todo.dto.todo.TodoRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +24,10 @@ public class Todo extends Timestamped {
 
     private boolean isCompleted;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Todo(TodoRequestDto todoRequestDto){
         this.title = todoRequestDto.getTitle();
         this.contents = todoRequestDto.getContents();
@@ -36,7 +40,5 @@ public class Todo extends Timestamped {
         this.isCompleted = true;
     }
 }
-
-
 
 

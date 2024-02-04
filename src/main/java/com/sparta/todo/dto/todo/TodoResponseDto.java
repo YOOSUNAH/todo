@@ -1,4 +1,4 @@
-package com.sparta.todo.dto;
+package com.sparta.todo.dto.todo;
 
 
 import com.sparta.todo.entity.Todo;
@@ -13,6 +13,7 @@ public class TodoResponseDto {
     private String contents;
     private LocalDateTime createdAt;
     private boolean isCompleted;
+    private String username;
 
 
     public TodoResponseDto(Todo todo){
@@ -21,6 +22,8 @@ public class TodoResponseDto {
         this.contents = todo.getContents();
         this.createdAt = todo.getCreatedAt();
         this.isCompleted = todo.isCompleted();
+        this.username = todo.getUser().getUsername();
     }
+
 
 }

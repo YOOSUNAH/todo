@@ -1,18 +1,23 @@
 package com.sparta.todo.service;
 
-import com.sparta.todo.dto.LoginRequestDto;
-import com.sparta.todo.dto.SignupRequestDto;
-import com.sparta.todo.dto.UserResponseDto;
+import com.sparta.todo.dto.*;
+import com.sparta.todo.dto.user.LoginRequestDto;
+import com.sparta.todo.dto.user.LoginResponseDto;
+import com.sparta.todo.dto.user.SignupRequestDto;
 import com.sparta.todo.entity.User;
 import com.sparta.todo.jwt.JwtUtil;
 import com.sparta.todo.repository.UserRepository;
+import com.sparta.todo.statusEnum.StatusEnum;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -22,9 +27,9 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     // ADMIN_TOKEN
-    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+//    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
     @Transactional
-    public String signup(SignupRequestDto signupRequestDto) {
+    public ApiResult signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String password = passwordEncoder.encode(signupRequestDto.getPassword());  // requestDto에서 가져온 Password 평문을 encode 암호화해서 password에 저장
 
@@ -35,28 +40,37 @@ public class UserService {
             // true 면, 값이 있다는 것이니, 중복된 사용자가 있다는 걸로 보고 throw 던짐.
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
-
         // 사용자 등록
         User user = new User(username, password);
         userRepository.save(user);  // 저장 됨.
-        return user.getUsername();
+
+        return new ApiResult(StatusEnum.SIGNUP_SUCCESS);
     }
 
-    @Transactional
-    public String login(LoginRequestDto loginRequestDto) {
-        String username = loginRequestDto.getUsername();
-        String password = loginRequestDto.getPassword();
-
-        // 사용자 확인
-        User user = userRepository.findByUsername(username).orElseThrow(
-            () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
-        );
-
-        // 비밀번호 확인
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
-        return username;
-    }
+//    @Transactional
+//    public ApiResult login(LoginRequestDto loginRequestDto, HttpServletRequest res) {
+//        String username = loginRequestDto.getUsername();
+//        String password = loginRequestDto.getPassword();
+//
+//        // 사용자 확인
+//        User user = userRepository.findByUsername(username).orElseThrow(
+//            () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+//        );
+//
+//        // 비밀번호 확인
+//        if (!passwordEncoder.matches(password, user.getPassword())) {
+//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//        }
+//
+//        // 로그인 성공 시, 토큰 생성
+//        String token = jwtUtil.createToken(user.getUsername());
+//        jwtUtil.addJwtToHeader(token, res);
+//
+//        LoginResponseDto dto = new LoginResponseDto(user, token);
+//
+//
+//        return new ApiResult(StatusEnum.LOGIN_SUCCESS);
+//    }
 }
+
 

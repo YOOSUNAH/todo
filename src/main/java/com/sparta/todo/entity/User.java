@@ -1,9 +1,11 @@
 package com.sparta.todo.entity;
 
-import com.sparta.todo.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -18,6 +20,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Todo> todoList = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;

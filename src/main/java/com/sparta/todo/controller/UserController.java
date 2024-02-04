@@ -27,14 +27,13 @@ public class UserController {
         return userService.signup(signupRequestDto);
     }
 
-//    @PostMapping("/login")
-//    @Operation(
-//        summary = "로그인",
-//        description = "이름과 비밀번호를 입력해 주세요"
-//    )
-//    public ApiResult login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request){
-//        return userService.login(loginRequestDto, request);
-//    }
-
+    @PostMapping("/login")
+    @Operation(
+        summary = "로그인",
+        description = "이름과 비밀번호를 입력해 주세요"
+    )
+    public ApiResult login(@RequestBody LoginRequestDto loginRequestDto,HttpServletRequest request, HttpServletResponse response){
+        return userService.login(loginRequestDto, request, response);
+    }
 
 }

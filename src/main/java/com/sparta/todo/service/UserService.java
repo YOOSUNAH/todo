@@ -9,6 +9,7 @@ import com.sparta.todo.jwt.JwtUtil;
 import com.sparta.todo.repository.UserRepository;
 import com.sparta.todo.statusEnum.StatusEnum;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,30 +48,30 @@ public class UserService {
         return new ApiResult(StatusEnum.SIGNUP_SUCCESS);
     }
 
-//    @Transactional
-//    public ApiResult login(LoginRequestDto loginRequestDto, HttpServletRequest res) {
-//        String username = loginRequestDto.getUsername();
-//        String password = loginRequestDto.getPassword();
-//
-//        // 사용자 확인
-//        User user = userRepository.findByUsername(username).orElseThrow(
-//            () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
-//        );
-//
-//        // 비밀번호 확인
-//        if (!passwordEncoder.matches(password, user.getPassword())) {
-//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//        }
-//
-//        // 로그인 성공 시, 토큰 생성
-//        String token = jwtUtil.createToken(user.getUsername());
-//        jwtUtil.addJwtToHeader(token, res);
-//
-//        LoginResponseDto dto = new LoginResponseDto(user, token);
-//
-//
-//        return new ApiResult(StatusEnum.LOGIN_SUCCESS);
-//    }
+    @Transactional
+    public ApiResult login(LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response) {
+        String username = loginRequestDto.getUsername();
+        String password = loginRequestDto.getPassword();
+
+        // 사용자 확인
+        User user = userRepository.findByUsername(username).orElseThrow(
+            () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+
+        // 비밀번호 확인
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        // 로그인 성공 시, 토큰 생성
+        String token = jwtUtil.createToken(user.getUsername());
+        jwtUtil.addJwtToHeader(token,request,response);
+
+        LoginResponseDto dto = new LoginResponseDto(user, token);
+
+
+        return new ApiResult(StatusEnum.LOGIN_SUCCESS);
+    }
 }
 
 

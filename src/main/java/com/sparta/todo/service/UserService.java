@@ -27,8 +27,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    // ADMIN_TOKEN
-//    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
     @Transactional
     public ApiResult signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
@@ -49,7 +47,7 @@ public class UserService {
     }
 
     @Transactional
-    public ApiResult login(LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response) {
         String username = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
 
@@ -65,12 +63,13 @@ public class UserService {
 
         // 로그인 성공 시, 토큰 생성
         String token = jwtUtil.createToken(user.getUsername());
-        jwtUtil.addJwtToHeader(token,request,response);
 
-        LoginResponseDto dto = new LoginResponseDto(user, token);
+        // header에 더하기
+        jwtUtil.addHeader(response, Math.toIntExact(user.getUserId()), token);
 
+        ApiResult apiResult = new ApiResult(StatusEnum.LOGIN_SUCCESS);
 
-        return new ApiResult(StatusEnum.LOGIN_SUCCESS);
+        return new LoginResponseDto(user, token, apiResult);
     }
 }
 

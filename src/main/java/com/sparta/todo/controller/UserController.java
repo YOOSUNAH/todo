@@ -2,6 +2,7 @@ package com.sparta.todo.controller;
 
 import com.sparta.todo.dto.*;
 import com.sparta.todo.dto.user.LoginRequestDto;
+import com.sparta.todo.dto.user.LoginResponseDto;
 import com.sparta.todo.dto.user.SignupRequestDto;
 import com.sparta.todo.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,7 @@ public class UserController {
         summary = "로그인",
         description = "이름과 비밀번호를 입력해 주세요"
     )
-    public ApiResult login(@RequestBody LoginRequestDto loginRequestDto,HttpServletRequest request, HttpServletResponse response){
+    public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response){
         return userService.login(loginRequestDto, request, response);
     }
 

@@ -24,9 +24,10 @@ public class Todo extends Timestamped {
 
     private boolean isCompleted;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
+
 
 
     public Todo(TodoRequestDto todoRequestDto, User user){
@@ -34,7 +35,6 @@ public class Todo extends Timestamped {
         this.contents = todoRequestDto.getContents();
         this.isCompleted = false;
         this.user = user;
-
     }
 
     public void update(TodoRequestDto todoRequestDto){

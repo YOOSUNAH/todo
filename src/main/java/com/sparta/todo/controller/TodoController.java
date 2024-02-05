@@ -9,7 +9,6 @@ import com.sparta.todo.dto.todo.TodoResponseDto;
 import com.sparta.todo.entity.User;
 import com.sparta.todo.service.TodoService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

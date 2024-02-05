@@ -19,8 +19,8 @@ public class UserHandlerMethodArgumentResolver implements HandlerMethodArgumentR
 
     @Override
     public UserAuth resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        HttpServletRequest nativeRequest =(HttpServletRequest)webRequest.getNativeRequest();
-        Long userId = Long.valueOf((String) nativeRequest.getAttribute("userId"));
+        HttpServletRequest request =(HttpServletRequest)webRequest.getNativeRequest();
+        Long userId = Long.valueOf((String) request.getAttribute("userId"));
         return new UserAuth(userId);
     }
 }

@@ -41,7 +41,7 @@ public class JwtUtil {
     public String createToken(Long userId) {
         Date date = new Date();
 
-        return BEARER_PREFIX +
+        return
             Jwts.builder()
                 .setSubject(String.valueOf(userId)) // 사용자 식별자값(ID)
                 .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간

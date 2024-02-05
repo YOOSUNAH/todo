@@ -33,8 +33,8 @@ public class UserController {
         summary = "로그인",
         description = "이름과 비밀번호를 입력해 주세요"
     )
-    public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response){
-        return userService.login(loginRequestDto, request, response);
+    public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+        return userService.login(loginRequestDto, response);
     }
 
 }

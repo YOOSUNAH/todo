@@ -7,8 +7,7 @@ import com.sparta.todo.dto.user.SignupRequestDto;
 import com.sparta.todo.entity.User;
 import com.sparta.todo.jwt.JwtUtil;
 import com.sparta.todo.repository.UserRepository;
-import com.sparta.todo.statusEnum.StatusEnum;
-import jakarta.servlet.http.HttpServletRequest;
+import com.sparta.todo.statusEnum.StatusAndEnum;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,11 +42,11 @@ public class UserService {
         User user = new User(username, password);
         userRepository.save(user);  // 저장 됨.
 
-        return new ApiResult(StatusEnum.SIGNUP_SUCCESS);
+        return new ApiResult(StatusAndEnum.SIGNUP_SUCCESS);
     }
 
     @Transactional
-    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         String username = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
 
@@ -62,12 +61,12 @@ public class UserService {
         }
 
         // 로그인 성공 시, 토큰 생성
-        String token = jwtUtil.createToken(user.getUsername());
+        String token = jwtUtil.createToken(user.getUserId());
 
         // header에 더하기
-        jwtUtil.addHeader(response, Math.toIntExact(user.getUserId()), token);
+        jwtUtil.addHeader(response, token);
 
-        ApiResult apiResult = new ApiResult(StatusEnum.LOGIN_SUCCESS);
+        ApiResult apiResult = new ApiResult(StatusAndEnum.LOGIN_SUCCESS);
 
         return new LoginResponseDto(user, token, apiResult);
     }

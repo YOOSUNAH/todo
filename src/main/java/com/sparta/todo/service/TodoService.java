@@ -30,28 +30,27 @@ public class TodoService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
-
     @Transactional
-    public TodoResponseDto saveTodo(HttpServletRequest request, TodoRequestDto todoRequestDto) {
+    public TodoResponseDto saveTodo(TodoRequestDto todoRequestDto, Long userId) {
         //  header -> token
-        String token = request.getHeader(AUTHORIZATION_HEADER);
+//        String token = request.getHeader(AUTHORIZATION_HEADER);
 
         // token -> userId
-        Claims info = jwtUtil.getUserInfoFromToken(token);
+//        Claims info = jwtUtil.getUserInfoFromToken(token);
 
-        User user = userRepository.findByUsername(info.getSubject()).orElseThrow(() ->
+        User user = userRepository.findById(userId).orElseThrow(() ->
             new NullPointerException("Not Found User")
         );
-
-        // id 확인 용 로그
-        Long userId = user.getUserId();
-        log.info("userId :" + userId);
+//        // id 확인 용 로그
+//        Long userId = user.getUserId();
+//        log.info("userId :" + userId);
 
         // RequestDto -> Entity
         Todo todo = new Todo(todoRequestDto, user);
         // DB 저장
         Todo saveTodo = todoRespository.save(todo);
         // Entity -> ResponseDto
+
         return new TodoResponseDto(saveTodo, user.getUsername());
 
     }
@@ -62,7 +61,6 @@ public class TodoService {
 
         List<Long> userIdList = todosList.stream().map(todo -> todo.getUser().getUserId()).toList();
         List<User> userList = userRepository.findByIds(userIdList);
-
 
         Map<Long, String> usernameMap = userList.stream().collect(Collectors.toMap(User::getUserId, User::getUsername));
 

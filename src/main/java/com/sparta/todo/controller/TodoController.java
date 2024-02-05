@@ -1,7 +1,8 @@
 package com.sparta.todo.controller;
 
 
-import com.sparta.todo.config.GetUserInfo;
+import com.sparta.todo.config.Auth;
+import com.sparta.todo.config.UserAuth;
 import com.sparta.todo.dto.todo.TodoRequestDto;
 import com.sparta.todo.dto.todo.TodoListResponseDto;
 import com.sparta.todo.dto.todo.TodoResponseDto;
@@ -29,9 +30,8 @@ public class TodoController {
         summary = "일정 추가",
         description = "제목, 내용을 입력해주세요"
     )
-    public TodoResponseDto saveTodo(
-    @RequestHeader HttpServletRequest servletRequest,@RequestBody TodoRequestDto todoRequestDto) {
-        return todoService.saveTodo(servletRequest, todoRequestDto);
+    public TodoResponseDto saveTodo(@RequestBody TodoRequestDto todoRequestDto, @Auth UserAuth userAuth) {
+        return todoService.saveTodo(todoRequestDto, userAuth.getUserId());
     }
 
     // 일정 목록 조회

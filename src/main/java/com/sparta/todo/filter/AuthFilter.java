@@ -42,7 +42,6 @@ public class AuthFilter implements Filter {
             // 토큰 확인
             String token = ((HttpServletRequest) request).getHeader(AUTHORIZATION_HEADER);
 
-
             if (StringUtils.hasText(token)) { // 토큰이 존재하면 검증 시작
                 // JWT 토큰 substring\
                 log.info("token value : "+ token);
@@ -53,14 +52,12 @@ public class AuthFilter implements Filter {
                 }
                 // 토큰에서 사용자 정보 가져오기
                 Claims info = jwtUtil.getUserInfoFromToken(token);
-                User user = userRepository.findByUsername(info.getSubject()).orElseThrow(() ->
-                    new NullPointerException("Not Found User")
-                );
+//                User user = userRepository.findById(Long.valueOf(info.getSubject())).orElseThrow(() ->
+//                    new NullPointerException("Not Found User")
+//                );
 
-                request.setAttribute("user", user);
+                request.setAttribute("userId", info.getSubject());
                 chain.doFilter(request, response); // 다음 Filter 로 이동
-
-
 
             } else {
                 throw new IllegalArgumentException("Not Found Token");

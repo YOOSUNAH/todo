@@ -26,8 +26,7 @@ public class AuthFilter implements Filter {
         String url = httpServletRequest.getRequestURI();
 
         if (StringUtils.hasText(url) &&
-            (url.startsWith("/api/v1/user") || url.startsWith("/docs"))
-        ) {
+            (url.startsWith("/api/v1/user") || url.startsWith("/docs") || url.startsWith("/v3/api-docs") || url.startsWith("/swagger-ui/"))) {
             log.info("인증 처리를 하지 않는 URL : " + url);
             // 회원가입, 로그인 관련 API 는 인증 필요없이 요청 진행
             chain.doFilter(request, response); // 다음 Filter 로 이동
@@ -37,15 +36,17 @@ public class AuthFilter implements Filter {
             String token = ((HttpServletRequest) request).getHeader(AUTHORIZATION_HEADER);
 
             if (StringUtils.hasText(token)) { // 토큰이 존재하면 검증 시작
-                // JWT 토큰 substring\
+                // JWT 토큰 substring
                 log.info("token value : "+ token);
 
+                String token2 = jwtUtil.substringToken(token);
+
                 // 토큰 검증
-                if (jwtUtil.validateToken(token)) {
+                if (jwtUtil.validateToken(token2)) {
                     throw new IllegalArgumentException("Token Error");
                 }
                 // 토큰에서 사용자 정보 가져오기
-                Claims info = jwtUtil.getUserInfoFromToken(token);
+                Claims info = jwtUtil.getUserInfoFromToken(token2);
 
                 request.setAttribute("userId", info.getSubject());
                 chain.doFilter(request, response); // 다음 Filter 로 이동

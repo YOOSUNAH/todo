@@ -1,13 +1,9 @@
 package com.sparta.todo.controller;
 
-
-import com.sparta.todo.config.Auth;
-import com.sparta.todo.config.UserAuth;
 import com.sparta.todo.dto.todo.TodoRequestDto;
 import com.sparta.todo.dto.todo.TodoListResponseDto;
 import com.sparta.todo.dto.todo.TodoResponseDto;
 import com.sparta.todo.entity.User;
-import com.sparta.todo.jwt.JwtUtil;
 import com.sparta.todo.service.TodoService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;

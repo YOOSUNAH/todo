@@ -31,19 +31,15 @@ public class TodoService {
     private final UserRepository userRepository;
 
     @Transactional
-    public TodoResponseDto saveTodo(TodoRequestDto todoRequestDto, Long userId) {
-        //  header -> token
-//        String token = request.getHeader(AUTHORIZATION_HEADER);
+    public TodoResponseDto saveTodo(HttpServletRequest request, TodoRequestDto todoRequestDto) {
+        String token = jwtUtil.getJwtFromHeader(request);
 
         // token -> userId
-//        Claims info = jwtUtil.getUserInfoFromToken(token);
+        Claims info = jwtUtil.getUserInfoFromToken(token);
 
-        User user = userRepository.findById(userId).orElseThrow(() ->
+        User user = userRepository.findById(Long.valueOf(info.getSubject())).orElseThrow(() ->
             new NullPointerException("Not Found User")
         );
-//        // id 확인 용 로그
-//        Long userId = user.getUserId();
-//        log.info("userId :" + userId);
 
         // RequestDto -> Entity
         Todo todo = new Todo(todoRequestDto, user);
@@ -58,7 +54,6 @@ public class TodoService {
 
     public List<TodoListResponseDto> getTodos() {
         List<Todo> todosList = todoRespository.findAll();
-
         List<Long> userIdList = todosList.stream().map(todo -> todo.getUser().getUserId()).toList();
         List<User> userList = userRepository.findByIds(userIdList);
 

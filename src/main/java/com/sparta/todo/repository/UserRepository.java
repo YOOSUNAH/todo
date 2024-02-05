@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+    Optional<User> findById(Long userId);
 
     @Query("SELECT u FROM User u WHERE u.userId IN :ids")
     List<User> findByIds(@Param("ids") List<Long> userIdList);
+
+    Optional<User> findByUsername(String username);
 
 }

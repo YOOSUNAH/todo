@@ -7,8 +7,10 @@ import com.sparta.todo.dto.todo.TodoRequestDto;
 import com.sparta.todo.dto.todo.TodoListResponseDto;
 import com.sparta.todo.dto.todo.TodoResponseDto;
 import com.sparta.todo.entity.User;
+import com.sparta.todo.jwt.JwtUtil;
 import com.sparta.todo.service.TodoService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,8 @@ public class TodoController {
         summary = "일정 추가",
         description = "제목, 내용을 입력해주세요"
     )
-    public TodoResponseDto saveTodo(@RequestBody TodoRequestDto todoRequestDto, @Auth UserAuth userAuth) {
-        return todoService.saveTodo(todoRequestDto, userAuth.getUserId());
+    public TodoResponseDto saveTodo(HttpServletRequest request, @RequestBody TodoRequestDto todoRequestDto) {
+        return todoService.saveTodo(request, todoRequestDto);
     }
 
     // 일정 목록 조회

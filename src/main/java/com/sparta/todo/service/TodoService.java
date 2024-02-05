@@ -12,14 +12,13 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.sparta.todo.jwt.JwtUtil.AUTHORIZATION_HEADER;
 
 @Slf4j
 @Service
@@ -33,14 +32,11 @@ public class TodoService {
     @Transactional
     public TodoResponseDto saveTodo(HttpServletRequest request, TodoRequestDto todoRequestDto) {
         String token = jwtUtil.getJwtFromHeader(request);
-
         // token -> userId
         Claims info = jwtUtil.getUserInfoFromToken(token);
-
         User user = userRepository.findById(Long.valueOf(info.getSubject())).orElseThrow(() ->
             new NullPointerException("Not Found User")
         );
-
         // RequestDto -> Entity
         Todo todo = new Todo(todoRequestDto, user);
         // DB 저장
@@ -53,7 +49,7 @@ public class TodoService {
 
 
     public List<TodoListResponseDto> getTodos() {
-        List<Todo> todosList = todoRespository.findAll();
+        List<Todo> todosList = todoRespository.findAll(Sort.by("createdAt").descending());
         List<Long> userIdList = todosList.stream().map(todo -> todo.getUser().getUserId()).toList();
         List<User> userList = userRepository.findByIds(userIdList);
 
@@ -65,8 +61,6 @@ public class TodoService {
                 return new TodoListResponseDto(todo, username);
             })
             .collect(Collectors.toList());
-
-        //   return todoRepository.findAll(Sort.by("createdAt").descending()).stream().map(TodoResponseDto::new).toList();
     }
 
     public TodoResponseDto getTodoById(Long todoId) {

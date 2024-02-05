@@ -2,8 +2,10 @@ package com.sparta.todo.controller;
 
 
 import com.sparta.todo.dto.todo.TodoRequestDto;
+import com.sparta.todo.dto.todo.TodoListResponseDto;
 import com.sparta.todo.dto.todo.TodoResponseDto;
 import com.sparta.todo.entity.Todo;
+import com.sparta.todo.entity.User;
 import com.sparta.todo.service.TodoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,14 +28,13 @@ public class TodoController {
     @PostMapping("/todos")
     @Operation(
         summary = "일정 추가",
-        description = "제목, 내용을 입력해주세요",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "일정 추가 성공"),
-            @ApiResponse(responseCode = "500", description = "일정 추가 에러")
-        }
+        description = "제목, 내용을 입력해주세요"
     )
-    public List<TodoResponseDto>  saveTodo(@RequestBody TodoRequestDto todoRequestDto, String token, HttpServletRequest res) {
-        return todoService.saveTodo(todoRequestDto, token, res);
+    public List<TodoResponseDto>  saveTodo(
+//        @RequestHeader(value = "Authorization") String token,
+        @RequestBody TodoRequestDto todoRequestDto,
+        HttpServletRequest req) { // HttpServletRequest req
+        return todoService.saveTodo(todoRequestDto, new User());
     }
 
     // 일정 목록 조회
@@ -42,7 +43,7 @@ public class TodoController {
         summary = "일정 목록 조회",
         description = "전체 일정 목록을 조회해줍니다"
     )
-    public List<TodoResponseDto> getTodos() {
+    public List<TodoListResponseDto> getTodos() {
         return todoService.getTodos();
     }
 
@@ -55,14 +56,19 @@ public class TodoController {
     public Todo getTodoById(@PathVariable Long todoId) {
         return todoService.getTodoById(todoId);
     }
+
     // 선택 일정 수정
     @PutMapping("/todos/{todoId}")
     @Operation(
         summary = "선택 일정 수정",
         description = "수정하고자 하는 일정의 아이디를 입력해주세요"
     )
-    public Long updateMemo(@PathVariable Long todoId, @RequestBody TodoRequestDto todoRequestDto){
-        return todoService.updateTodo(todoId, todoRequestDto);
+    public List<TodoResponseDto> updateMemo(@PathVariable Long todoId, @RequestHeader String token,@RequestBody TodoRequestDto todoRequestDto, HttpServletRequest req){
+        System.out.println("인증완료");
+        Todo todo = (Todo) req.getAttribute("todo");
+        System.out.println("todoId : " + todo.getTodoId());
+
+        return todoService.updateTodo(todoId, todoRequestDto,new User());
     }
 
     // 선택 일정 삭제

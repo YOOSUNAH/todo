@@ -28,10 +28,13 @@ public class Todo extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Todo(TodoRequestDto todoRequestDto){
+
+    public Todo(TodoRequestDto todoRequestDto, User user){
         this.title = todoRequestDto.getTitle();
         this.contents = todoRequestDto.getContents();
         this.isCompleted = false;
+        this.user = user;
+
     }
 
     public void update(TodoRequestDto todoRequestDto){

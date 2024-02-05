@@ -1,13 +1,11 @@
 package com.sparta.todo.filter;
 
-import com.sparta.todo.entity.User;
 import com.sparta.todo.jwt.JwtUtil;
-import com.sparta.todo.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -17,14 +15,10 @@ import static com.sparta.todo.jwt.JwtUtil.AUTHORIZATION_HEADER;
 
 @Slf4j(topic = "AuthFilter")
 @Component
-@Order(2)
+@RequiredArgsConstructor
 public class AuthFilter implements Filter {
-    private final UserRepository userRepository;
+
     private final JwtUtil jwtUtil;
-    public AuthFilter(UserRepository userRepository, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -52,9 +46,6 @@ public class AuthFilter implements Filter {
                 }
                 // 토큰에서 사용자 정보 가져오기
                 Claims info = jwtUtil.getUserInfoFromToken(token);
-//                User user = userRepository.findById(Long.valueOf(info.getSubject())).orElseThrow(() ->
-//                    new NullPointerException("Not Found User")
-//                );
 
                 request.setAttribute("userId", info.getSubject());
                 chain.doFilter(request, response); // 다음 Filter 로 이동

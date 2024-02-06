@@ -63,11 +63,11 @@ public class TodoService {
         return new TodoResponseDto(todo, todo.getUser().getUsername());
     }
     @Transactional
-    public TodoResponseDto updateTodo(HttpServletRequest request, Long todoId, TodoRequestDto todoRequestDto, User user) {
+    public TodoResponseDto updateTodo(HttpServletRequest request, Long todoId, TodoRequestDto todoRequestDto) {
         String token = jwtUtil.getJwtFromHeader(request);
         // token -> userId
         Claims info = jwtUtil.getUserInfoFromToken(token);
-        user = userRepository.findById(Long.valueOf(info.getSubject())).orElseThrow(() ->
+        User user = userRepository.findById(Long.valueOf(info.getSubject())).orElseThrow(() ->
             new NullPointerException("Not Found User")
         );
 

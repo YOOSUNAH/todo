@@ -45,7 +45,7 @@ public class TodoController {
     // 선택 일정 수정
     @PutMapping("/todos/{todoId}")
     @Operation(summary = "선택 일정 수정", description = "수정하고자 하는 일정의 아이디를 입력해주세요")
-    public TodoResponseDto updateTodo(HttpServletRequest request, @PathVariable Long todoId, @RequestBody TodoRequestDto todoRequestDto, Boolean isCompleted){
+    public TodoResponseDto updateTodo(HttpServletRequest request, @PathVariable Long todoId, @RequestBody TodoRequestDto todoRequestDto, Boolean isCompleted) {
         return todoService.updateTodo(request, todoId, todoRequestDto, isCompleted);
     }
 

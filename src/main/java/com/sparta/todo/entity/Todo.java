@@ -33,14 +33,14 @@ public class Todo extends Timestamped {
     public Todo(TodoRequestDto todoRequestDto, User user){
         this.title = todoRequestDto.getTitle();
         this.contents = todoRequestDto.getContents();
-        this.isCompleted = false;
         this.user = user;
+        this.isCompleted = false;
     }
 
-    public void update(TodoRequestDto todoRequestDto){
+    public void update(TodoRequestDto todoRequestDto, Boolean isCompleted){
         this.title = todoRequestDto.getTitle();
         this.contents = todoRequestDto.getContents();
-        this.isCompleted = true;
+        this.isCompleted = isCompleted;
     }
 }
 

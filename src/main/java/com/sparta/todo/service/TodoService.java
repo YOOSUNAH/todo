@@ -41,9 +41,11 @@ public class TodoService {
         Todo todo = new Todo(todoRequestDto, user);
         // DB 저장
         Todo saveTodo = todoRespository.save(todo);
+
         // Entity -> ResponseDto
         return new TodoResponseDto(saveTodo, user.getUsername());
     }
+
     public List<TodoListResponseDto> getTodos() {
         List<Todo> todosList = todoRespository.findAll(Sort.by("createdAt").descending());
         List<Long> userIdList = todosList.stream().map(todo -> todo.getUser().getUserId()).toList();
@@ -58,27 +60,32 @@ public class TodoService {
             })
             .collect(Collectors.toList());
     }
+
     public TodoResponseDto getTodoById(Long todoId) {
         Todo todo = todoRespository.findById(todoId).orElseThrow(() -> new IllegalArgumentException("해당 할일은 없습니다."));
         return new TodoResponseDto(todo, todo.getUser().getUsername());
     }
+
     @Transactional
-    public TodoResponseDto updateTodo(HttpServletRequest request, Long todoId, TodoRequestDto todoRequestDto) {
+    public TodoResponseDto updateTodo(HttpServletRequest request, Long todoId, TodoRequestDto todoRequestDto, Boolean isCompleted) {
         String token = jwtUtil.getJwtFromHeader(request);
         // token -> userId
         Claims info = jwtUtil.getUserInfoFromToken(token);
         User user = userRepository.findById(Long.valueOf(info.getSubject())).orElseThrow(() ->
             new NullPointerException("Not Found User")
         );
-
         Todo todo = todoRespository.findById(todoId).orElseThrow(() -> new IllegalArgumentException("선택한 할일은 존재하지 않습니다."));
-        todo.update(todoRequestDto);
+        isCompleted = true;
+        todo.update(todoRequestDto, isCompleted);
+
         return new TodoResponseDto(todo, user.getUsername());
     }
+
     @Transactional
     public Long deleteTodo(Long todoId) {
         Todo todo = todoRespository.findById(todoId).orElseThrow(() -> new IllegalArgumentException("해당 할일은 없습니다."));
         todoRespository.delete(todo);
         return todoId;
     }
+
 }

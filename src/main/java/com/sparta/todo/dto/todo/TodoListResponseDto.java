@@ -14,16 +14,11 @@ public class TodoListResponseDto {
     private LocalDateTime createdAt;
     private boolean isCompleted;
 
-
-
     public TodoListResponseDto(Todo todo, String username){
         this.todoId = todo.getTodoId();
         this.title = todo.getTitle();
         this.username = username;
         this.createdAt = todo.getCreatedAt();
         this.isCompleted = todo.isCompleted();
-
     }
-
-
 }

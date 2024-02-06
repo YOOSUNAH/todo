@@ -1,6 +1,5 @@
-package com.sparta.todo.dto;
+package com.sparta.todo.status;
 
-import com.sparta.todo.statusEnum.StatusAndEnum;
 import lombok.Getter;
 
 

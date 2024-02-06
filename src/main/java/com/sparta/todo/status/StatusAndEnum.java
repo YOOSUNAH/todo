@@ -1,4 +1,4 @@
-package com.sparta.todo.statusEnum;
+package com.sparta.todo.status;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

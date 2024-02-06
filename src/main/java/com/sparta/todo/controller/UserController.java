@@ -5,6 +5,7 @@ import com.sparta.todo.dto.user.LoginRequestDto;
 import com.sparta.todo.dto.user.LoginResponseDto;
 import com.sparta.todo.dto.user.SignupRequestDto;
 import com.sparta.todo.service.UserService;
+import com.sparta.todo.status.ApiResult;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

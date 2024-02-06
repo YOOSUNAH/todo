@@ -1,13 +1,13 @@
 package com.sparta.todo.service;
 
-import com.sparta.todo.dto.*;
 import com.sparta.todo.dto.user.LoginRequestDto;
 import com.sparta.todo.dto.user.LoginResponseDto;
 import com.sparta.todo.dto.user.SignupRequestDto;
 import com.sparta.todo.entity.User;
 import com.sparta.todo.jwt.JwtUtil;
 import com.sparta.todo.repository.UserRepository;
-import com.sparta.todo.statusEnum.StatusAndEnum;
+import com.sparta.todo.status.ApiResult;
+import com.sparta.todo.status.StatusAndEnum;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

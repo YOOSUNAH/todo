@@ -1,6 +1,6 @@
 package com.sparta.todo.dto.user;
 
-import com.sparta.todo.dto.ApiResult;
+import com.sparta.todo.status.ApiResult;
 import com.sparta.todo.entity.User;
 import lombok.Getter;
 

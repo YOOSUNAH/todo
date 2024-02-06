@@ -34,3 +34,10 @@
   * 토큰 확인 후 수정
 * Todo(할일) 선택 하여 삭제
   * 토근 확인 후 삭제
+ 
+* 할일카드 완료 기능 API
+  * update시, 작성자가 만든 Todo의 완료 여부가 true로 변환된다.
+  * Todo(할일) 목록 조회시, 해당 작성자가 update 하여, 완료(true)된 Todo(할일)을 Todo목록을 통해 확인 할 수 있다.
+    
+* 예외 처리 (ResponseEntity 사용) 일부 구현
+  - [X] DB에 이미 존재하는 username으로 회원가입을 요청한 경우 "중복된 username 입니다." 라는 에러메시지와 statusCode: 400을 Client에 반환

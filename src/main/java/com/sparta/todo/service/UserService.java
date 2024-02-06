@@ -36,7 +36,9 @@ public class UserService {
         // null check 하려고 Optional 로 받음.
         if (checkUsername.isPresent()) {  // Optional 내부에 isPresent 메서드 가 존재함 이를 이용.  값이 존재하는지 안하는지 확인해주는 메서드. 값이 있으면 true가 반환됨.
             // true 면, 값이 있다는 것이니, 중복된 사용자가 있다는 걸로 보고 throw 던짐.
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+           // throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+            return new ApiResult(StatusAndEnum.DUPLICATED_USERNAME);
+
         }
         // 사용자 등록
         User user = new User(username, password);
@@ -67,7 +69,6 @@ public class UserService {
         jwtUtil.addHeader(response, token);
 
         ApiResult apiResult = new ApiResult(StatusAndEnum.LOGIN_SUCCESS);
-
         return new LoginResponseDto(user, token, apiResult);
     }
 }

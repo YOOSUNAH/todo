@@ -58,8 +58,8 @@ public class TodoController {
         summary = "선택 일정 수정",
         description = "수정하고자 하는 일정의 아이디를 입력해주세요"
     )
-    public TodoResponseDto updateMemo(@PathVariable Long todoId, @RequestBody TodoRequestDto todoRequestDto, User user){
-        return todoService.updateTodo(todoId, todoRequestDto,user);
+    public TodoResponseDto updateMemo(HttpServletRequest request, @PathVariable Long todoId, @RequestBody TodoRequestDto todoRequestDto, User user){
+        return todoService.updateTodo(request, todoId, todoRequestDto,user);
     }
 
     // 선택 일정 삭제

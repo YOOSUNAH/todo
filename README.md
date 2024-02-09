@@ -3,13 +3,13 @@
 
 스파르타-내배캠-개인과제
 
-
 노션 링크 : <https://robust-tiglon-c3e.notion.site/8b69540ade674eb9990a0357036c99d1>
 
 
 🖥️ 프로젝트 소개
 ---
-회원가입 하고 로그인 후, Todo를 작성하고 관리하는 App
+* 회원가입 하고 로그인 후, Todo를 작성하고 관리하는 App
+* 이 프로젝트는 Spring Framework 기반의 프로젝트로 TODO LIST 기능을 구현하고있는 프로젝트 입니다.
 
 ⚙️ 개발 환경
 ---
@@ -17,6 +17,17 @@
 * JDK 17
 * Framework : Springboot(3.x)
 * Database : MySql
+
+⚙️ API 명세서
+* <https://documenter.getpostman.com/view/28175588/2s9YyzcHmt>
+ <img width="769" alt="스크린샷 2024-02-09 오전 11 28 14" src="https://github.com/YOOSUNAH/todoApplication/assets/120374640/a58714c1-4edc-4d4e-8d56-1e12b0ff60b1">
+ <img width="760" alt="스크린샷 2024-02-09 오전 11 29 05" src="https://github.com/YOOSUNAH/todoApplication/assets/120374640/19f31083-e75e-4bda-afbc-3e1d4f575cbc">
+
+⚙️ ERD
+---
+* <https://www.erdcloud.com/d/4KRjnXDqvAyHi99ym>
+  <img width="709" alt="스크린샷 2024-02-09 오전 11 26 13" src="https://github.com/YOOSUNAH/todoApplication/assets/120374640/00c4fb26-5076-4e7c-b913-950ab96863e0">
+
 
 📌 주요 기능
 ---

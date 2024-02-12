@@ -10,7 +10,6 @@ import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,7 +62,6 @@ public class TodoController {
         } catch (RejectedExecutionException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new TodoResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
-
     }
 
     // 선택 일정 삭제

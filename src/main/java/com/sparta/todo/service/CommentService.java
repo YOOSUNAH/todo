@@ -21,8 +21,6 @@ public class CommentService {
     private final CommentRespository commentRespository;
     private final TodoService todoService;
 
-
-
     public CommentResponseDto createComment(CommentRequestDto commentRequestDto, User user) {
             Todo todo = todoService.getTodo(commentRequestDto.getTodoId());
 
@@ -40,6 +38,11 @@ public class CommentService {
        comment.setText(commentRequestDto.getText());
         return new CommentResponseDto(comment);
     }
+    @Transactional
+    public void deleteComment(Long commentId, User user) {
+        Comment comment = getUserComment(commentId, user);
+        commentRespository.delete(comment);
+    }
 
     private Comment getUserComment(Long commentId, User user) {
         Comment comment = commentRespository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Id입니다."));
@@ -47,11 +50,6 @@ public class CommentService {
             throw new RejectedExecutionException("작성자만 수정할 수 있습니다.");
         }
         return comment;
-    }
-
-    public void deleteComment(Long commentId, User user) {
-        Comment comment = getUserComment(commentId, user);
-        commentRespository.delete(comment);
     }
 }
 

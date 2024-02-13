@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class UserDto {
+
     private String username;
 
     public UserDto(User user){

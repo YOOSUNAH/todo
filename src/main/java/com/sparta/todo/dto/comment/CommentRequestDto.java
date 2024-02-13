@@ -1,6 +1,6 @@
 package com.sparta.todo.dto.comment;
 
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,5 +8,7 @@ import lombok.Setter;
 @Setter
 public class CommentRequestDto {
     private Long todoId;
-    private String text;
+
+    @NotBlank(message = "내용을 입력해주세요.")
+    private String contents;
 }

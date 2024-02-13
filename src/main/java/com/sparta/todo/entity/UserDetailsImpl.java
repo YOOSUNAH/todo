@@ -10,11 +10,9 @@ public class UserDetailsImpl implements UserDetails {
     @Getter
     private final User user;
 
-    public UserDetailsImpl(User user) {
+    public UserDetailsImpl(User user){
         this.user = user;
     }
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,24 +1,25 @@
 package com.sparta.todo.dto.todo;
 
 
+import com.sparta.todo.dto.user.UserDto;
 import com.sparta.todo.entity.Todo;
+import jakarta.persistence.Entity;
+import java.util.List;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import lombok.Setter;
 
 @Getter
+@Setter
+@EqualsAndHashCode
 public class TodoListResponseDto {
-    private Long todoId;
-    private String title;
-    private String username;
-    private LocalDateTime createdAt;
-    private boolean isCompleted;
+   private UserDto user;
+   private List<TodoResponseDto> todoList;
 
-    public TodoListResponseDto(Todo todo, String username){
-        this.todoId = todo.getTodoId();
-        this.title = todo.getTitle();
-        this.username = username;
-        this.createdAt = todo.getCreatedAt();
-        this.isCompleted = todo.isCompleted();
+    public TodoListResponseDto(UserDto user, List<TodoResponseDto> todoList){
+      this.user = user;
+      this.todoList = todoList;
     }
 }

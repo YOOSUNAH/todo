@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class CommentRequestDto {
     private Long todoId;
-    private String content;
+    private String text;
 }

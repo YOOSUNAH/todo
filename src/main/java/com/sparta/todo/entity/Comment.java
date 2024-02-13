@@ -21,7 +21,8 @@ public class Comment {
     private Long id;
 
     @Column
-    private String content;
+    private String text;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -35,7 +36,7 @@ public class Comment {
     private LocalDateTime createDate;
 
     public Comment(CommentRequestDto dto){
-        this.content = dto.getContent();
+        this.text = dto.getText();
         this.createDate = LocalDateTime.now();
     }
 
@@ -47,8 +48,8 @@ public class Comment {
         this.todo = todo;
     }
 
-    public void setContent(String content){
-        this.content = content;
+    public void setText(String text){
+        this.text = text;
     }
 
 }

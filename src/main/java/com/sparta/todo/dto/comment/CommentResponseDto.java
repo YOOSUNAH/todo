@@ -1,6 +1,7 @@
 package com.sparta.todo.dto.comment;
 
 import com.sparta.todo.common.CommonResponseDto;
+import com.sparta.todo.dto.user.UserDto;
 import com.sparta.todo.entity.Comment;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -9,23 +10,22 @@ import lombok.Setter;
 
 
 @Getter
-@Builder
 @Setter
 public class CommentResponseDto extends CommonResponseDto {
     private Long id;
-    private String content;
+    private String text;
+    private UserDto user;
     private LocalDateTime createdAt;
 
     public CommentResponseDto(Comment comment){
         this.id = comment.getId();
-        this.content = comment.getContent();
+        this.text = comment.getText();
+        this.user = new UserDto(comment.getUser());
         this.createdAt = LocalDateTime.now();
     }
 
 
-    public CommentResponseDto(String msg, Integer statusCode){
-        super(msg, statusCode);
-    }
+
 }
 
 

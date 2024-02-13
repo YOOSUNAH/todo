@@ -1,5 +1,6 @@
 package com.sparta.todo.controller;
 
+import com.sparta.todo.common.CommonResponseDto;
 import com.sparta.todo.dto.comment.CommentRequestDto;
 import com.sparta.todo.dto.comment.CommentResponseDto;
 import com.sparta.todo.entity.UserDetailsImpl;
@@ -26,9 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     private final CommentService commentService;
 
-    // Post 작성
-    // Put {commentId} 수정
-    // Delete {commentId} 삭제
 
     @PostMapping
     public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails ){
@@ -37,18 +35,22 @@ public class CommentController {
     }
 
     @PutMapping("{commentId}")
-    public ResponseEntity<CommentResponseDto> putComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<CommonResponseDto> putComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try {
             CommentResponseDto commentResponseDto = commentService.updateComment(commentId, commentRequestDto, userDetails.getUser());
-            return ResponseEntity.status(201).body(commentResponseDto);
+            return ResponseEntity.ok().body(commentResponseDto);
         } catch (RejectedExecutionException | IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new CommentResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 
     @DeleteMapping("{commentId}")
-    public ResponseEntity<CommentResponseDto> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        CommentResponseDto response = commentService.deleteComment(commentId, userDetails.getUser());
-        return ResponseEntity.ok().body(response);
+    public  ResponseEntity<CommonResponseDto> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        try {
+            commentService.deleteComment(commentId, userDetails.getUser());
+            return ResponseEntity.ok().body(new CommonResponseDto("정상적으로 삭제 되었습니다.", HttpStatus.OK.value()));
+        } catch (RejectedExecutionException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 }

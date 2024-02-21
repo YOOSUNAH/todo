@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentRequestDto {
+
     private Long todoId;
 
     @NotBlank(message = "내용을 입력해주세요.")

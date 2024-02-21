@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
         String url = httpServletRequest.getRequestURI();
 
         if (StringUtils.hasText(url) &&
-            (url.startsWith("/api/v1/user") || url.startsWith("/docs") || url.startsWith("/v3/api-docs") || url.startsWith("/swagger-ui/"))) {
+            (url.startsWith("/api/v1/user") ||  url.startsWith("/api/v1/comments") || url.startsWith("/docs") || url.startsWith("/v3/api-docs") || url.startsWith("/swagger-ui/"))) {
             log.info("인증 처리를 하지 않는 URL : " + url);
             // 회원가입, 로그인 관련 API 는 인증 필요없이 요청 진행
             chain.doFilter(request, response); // 다음 Filter 로 이동

@@ -1,16 +1,11 @@
 package com.sparta.todo.service;
 
 import com.sparta.todo.dto.todo.TodoRequestDto;
-import com.sparta.todo.dto.todo.TodoListResponseDto;
 import com.sparta.todo.dto.todo.TodoResponseDto;
 import com.sparta.todo.dto.user.UserDto;
 import com.sparta.todo.entity.Todo;
 import com.sparta.todo.entity.User;
-import com.sparta.todo.jwt.JwtUtil;
-import com.sparta.todo.repository.TodoRespository;
-import com.sparta.todo.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
+import com.sparta.todo.repository.TodoRepository;
 import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,21 +16,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TodoService {
 
-    private final TodoRespository todoRespository;
+    private final TodoRepository todoRepository;
 
 
     @Transactional
     public TodoResponseDto saveTodo(TodoRequestDto todoRequestDto, User user) {
         Todo todo = new Todo(todoRequestDto);
         todo.setUser(user);
-        var saved = todoRespository.save(todo);
+        var saved = todoRepository.save(todo);
         return new TodoResponseDto(saved);
 
     }
@@ -48,7 +42,7 @@ public class TodoService {
 
     public Map<UserDto, List<TodoResponseDto>> getUserTodoMap() {
         Map<UserDto, List<TodoResponseDto>> userTodoMap = new HashMap<>();
-        List<Todo> todoList = todoRespository.findAll(Sort.by(Direction.DESC, "createDate"));
+        List<Todo> todoList = todoRepository.findAll(Sort.by(Direction.DESC, "createDate"));
 
         todoList.forEach(todo -> {
             var userDto = new UserDto(todo.getUser());
@@ -82,11 +76,11 @@ public class TodoService {
     @Transactional
     public void deleteTodo(Long todoId) {
         Todo todo = getTodo(todoId);
-        todoRespository.delete(todo);
+        todoRepository.delete(todo);
     }
 
     public Todo getTodo(Long todoId) {
-        return todoRespository.findById(todoId)
+        return todoRepository.findById(todoId)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 할일 ID 입니다."));
     }
     public Todo getUserTodo(Long todoId, User user) {

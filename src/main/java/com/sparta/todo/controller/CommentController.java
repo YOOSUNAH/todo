@@ -31,7 +31,6 @@ public class CommentController {
     //  추가
     @PostMapping("")
     public ResponseEntity<CommentResponseDto> postComment(@RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        log.info(  "확인좀 헤ㅐ보자으아아아아" +userDetails.getUsername()) ;
         CommentResponseDto responseDto = commentService.createComment(commentRequestDto, userDetails.getUser());
         return ResponseEntity.status(201).body(responseDto);
     }

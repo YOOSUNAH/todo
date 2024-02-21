@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Todo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long todoId;
 
     @Column
     private String title;

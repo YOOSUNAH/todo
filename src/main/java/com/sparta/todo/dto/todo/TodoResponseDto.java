@@ -27,7 +27,7 @@ public class TodoResponseDto extends CommonResponseDto {
     private LocalDateTime createdAt;
 
     public TodoResponseDto(Todo todo){
-        this.todoId = todo.getId();
+        this.todoId = todo.getTodoId();
         this.title = todo.getTitle();
         this.contents = todo.getContent();
         this.isCompleted = todo.getIsCompleted();

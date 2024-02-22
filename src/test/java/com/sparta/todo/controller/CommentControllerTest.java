@@ -1,8 +1,15 @@
 package com.sparta.todo.controller;
 
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.todo.controller.CommentController;
 import com.sparta.todo.dto.comment.CommentRequestDto;
 import com.sparta.todo.dto.comment.CommentResponseDto;
 import com.sparta.todo.entity.Comment;
@@ -24,14 +31,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-
 @WebMvcTest(CommentController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 public class CommentControllerTest {
@@ -39,17 +38,11 @@ public class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    // Mock 가짜 객체 , Junit스펙
-    // Mock, MockBean 차이  ,
-    // MockBean - spring 제공 의존성주입
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    // 의존성 주입.
-    // 1. @Autowired 필드 주입  -> 실제 객체 주입
-    // 2. private final .. 생성자 주입
-    // 3. setter 수정자 주입
-
-    // given, when
-    //
+    @Autowired
+    private WebApplicationContext context;
 
     @MockBean
     private JwtUtil jwtUtil;
@@ -57,19 +50,14 @@ public class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private WebApplicationContext context;
-
     @BeforeEach
     public void setup() {
         User mockUser = mock(User.class);
         UserDetailsImpl mockUserDetails = mock(UserDetailsImpl.class);
         given(mockUserDetails.getUser()).willReturn(mockUser);
 
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(mockUserDetails, null));
+        SecurityContextHolder.getContext()
+            .setAuthentication(new UsernamePasswordAuthenticationToken(mockUserDetails, null));
 
         mockMvc = webAppContextSetup(context).build();
     }

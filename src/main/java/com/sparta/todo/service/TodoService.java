@@ -29,9 +29,9 @@ public class TodoService {
     public TodoResponseDto saveTodo(TodoRequestDto todoRequestDto, User user) {
         Todo todo = new Todo(todoRequestDto);
         todo.setUser(user);
+
         var saved = todoRepository.save(todo);
         return new TodoResponseDto(saved);
-
     }
 
 
@@ -63,7 +63,7 @@ public class TodoService {
         Todo todo = getUserTodo(todoId, user);
         // 변경
         todo.setTitle(todoRequestDto.getTitle());
-        todo.setContent(todoRequestDto.getContents());
+        todo.setContent(todoRequestDto.getContent());
         return new TodoResponseDto(todo);
     }
 
@@ -88,6 +88,15 @@ public class TodoService {
         if(!user.getUserId().equals(todo.getUser().getUserId())) {
             throw new RejectedExecutionException("작성자만 수정할 수 있습니다.");
         }
+        return todo;
+    }
+
+
+    Todo createTodoFromRequest(TodoRequestDto todoRequestDto, User user) {
+        Todo todo = new Todo();
+        todo.setTitle(todoRequestDto.getTitle());
+        todo.setContent(todoRequestDto.getContent());
+        todo.setUser(user);
         return todo;
     }
 }

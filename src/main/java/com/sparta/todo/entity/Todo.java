@@ -13,12 +13,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -54,7 +57,7 @@ public class Todo implements Serializable {
 
     public Todo(TodoRequestDto dto) {
         this.title = dto.getTitle();
-        this.content = dto.getContents();
+        this.content = dto.getContent();
         this.createDate = LocalDateTime.now();
         this.isCompleted = false;
     }
@@ -76,6 +79,8 @@ public class Todo implements Serializable {
     public void complete() {
         this.isCompleted = true;
     }
+
+
 }
 
 

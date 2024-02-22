@@ -39,6 +39,18 @@ public class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    // Mock 가짜 객체 , Junit스펙
+    // Mock, MockBean 차이  ,
+    // MockBean - spring 제공 의존성주입
+
+    // 의존성 주입.
+    // 1. @Autowired 필드 주입  -> 실제 객체 주입
+    // 2. private final .. 생성자 주입
+    // 3. setter 수정자 주입
+
+    // given, when
+    //
+
     @MockBean
     private JwtUtil jwtUtil;
 

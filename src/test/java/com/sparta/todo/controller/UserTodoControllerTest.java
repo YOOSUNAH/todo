@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.todo.config.WebSecurityConfig;
+import com.sparta.todo.dto.todo.TodoRequestDto;
 import com.sparta.todo.entity.User;
 import com.sparta.todo.entity.UserDetailsImpl;
 import com.sparta.todo.mvc.MockSpringSecurityFilter;
@@ -20,9 +21,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest(
@@ -54,16 +58,16 @@ class UserTodoControllerTest {
 
     @BeforeEach
     public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context) // setup에 집어 넣기 위해서 context를 위에서 @Autowired 해서 받아왔다.
-            .apply(springSecurity(new MockSpringSecurityFilter())) // 우리가 만든 filter : MockSpringSecurityFilter
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+            .apply(springSecurity(new MockSpringSecurityFilter()))
             .build();
     }
 
 
     private void mockUserSetup() {
         // Mock 테스트 유져 생성
-        String username = "sollertia4351";
-        String password = "robbie1234";
+        String username = "username";
+        String password = "password12";
         User testUser = new User(username, password);
         UserDetailsImpl testUserDetails = new UserDetailsImpl(testUser);
         mockPrincipal = new UsernamePasswordAuthenticationToken(testUserDetails, "", testUserDetails.getAuthorities());
@@ -78,23 +82,41 @@ class UserTodoControllerTest {
     }
 
     @Test
-    @DisplayName("회원 가입 요청")
-    void getTodoList() {
-    }
+    @DisplayName("회원 가입 요청 처리")
+    void signup() throws Exception {
+        // given
+        MultiValueMap<String, String> signupRequestForm = new LinkedMultiValueMap<>();
+        signupRequestForm.add("username", "username");
+        signupRequestForm.add("password", "password12");
 
-    @Test
-    void getTodoById() {
+        // when - then
+        mvc.perform(post("/api/v1/user/signup")
+                .params(signupRequestForm)
+            )
+            .andExpect(status().is3xxRedirection());
     }
-
     @Test
-    void putTodo() {
-    }
+    @DisplayName("todo 등록")
+    void postTodo() throws Exception {
+        // given
+        this.mockUserSetup();
+        String title = "title";
+        String content = "content";
+        TodoRequestDto requestDto = new TodoRequestDto(
+            title,
+            content
+        );
 
-    @Test
-    void completeTodo() {
-    }
+        String postInfo = objectMapper.writeValueAsString(requestDto);
 
-    @Test
-    void deleteTodo() {
+        // when - then
+        mvc.perform(post("/api/v1/todos")
+                .content(postInfo)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .principal(mockPrincipal)
+            )
+            .andExpect(status().isOk());
+
     }
 }

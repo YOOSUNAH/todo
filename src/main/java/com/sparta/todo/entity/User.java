@@ -1,6 +1,7 @@
 package com.sparta.todo.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Todo> todoList = new ArrayList<>();
 
+    @Builder
     public User(String username, String password) {
         this.username = username;
         this.password = password;

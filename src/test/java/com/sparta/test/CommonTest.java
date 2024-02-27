@@ -8,6 +8,11 @@ public interface CommonTest {
     Long TEST_ANOTHER_USER_ID = 2L;
     String TEST_USER_NAME = "username";
     String TEST_USER_PASSWORD = "password";
+
+    String TOKEN = "test-token";
+    String INVALID_TOKEN = "invalid-token";
+
+
     User TEST_USER = User.builder()
         .username(TEST_USER_NAME)
         .password(TEST_USER_PASSWORD)

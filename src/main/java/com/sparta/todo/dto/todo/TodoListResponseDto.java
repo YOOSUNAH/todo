@@ -2,8 +2,6 @@ package com.sparta.todo.dto.todo;
 
 
 import com.sparta.todo.dto.user.UserDto;
-import com.sparta.todo.entity.Todo;
-import jakarta.persistence.Entity;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

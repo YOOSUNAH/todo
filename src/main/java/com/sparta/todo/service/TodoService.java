@@ -1,16 +1,15 @@
 package com.sparta.todo.service;
 
 import com.sparta.todo.dto.todo.TodoRequestDto;
-import com.sparta.todo.dto.todo.TodoListResponseDto;
 import com.sparta.todo.dto.todo.TodoResponseDto;
 import com.sparta.todo.dto.user.UserDto;
 import com.sparta.todo.entity.Todo;
 import com.sparta.todo.entity.User;
-import com.sparta.todo.jwt.JwtUtil;
 import com.sparta.todo.repository.TodoRespository;
-import com.sparta.todo.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

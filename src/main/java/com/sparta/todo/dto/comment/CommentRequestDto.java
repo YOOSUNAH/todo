@@ -1,6 +1,6 @@
 package com.sparta.todo.dto.comment;
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 

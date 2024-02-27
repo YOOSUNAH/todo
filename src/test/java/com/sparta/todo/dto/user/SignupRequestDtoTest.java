@@ -1,12 +1,13 @@
 package com.sparta.todo.dto.user;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.sparta.test.CommonTest;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -30,7 +31,7 @@ class SignupRequestDtoTest implements CommonTest {
         Set<ConstraintViolation<SignupRequestDto>> violations = validate(signupRequestDto);  // validate 메서드 별도 생성
 
         // then
-        assertThat(violations).isEmpty();
+        assertThat(violations).isEmpty();  // isEmpty면 아무것도 잘못된게 없다.
     }
 
         @Disabled // Github Action 기본 Runner 가 Java 21 버전으로 실행되어서 Disabled 처리함
@@ -46,7 +47,7 @@ class SignupRequestDtoTest implements CommonTest {
             Set<ConstraintViolation<SignupRequestDto>> violations = validate(signupRequestDto);
 
             // then
-            assertThat(violations).hasSize(1);
+            assertThat(violations).hasSize(1);  // 하나라도 잘못된게 있다면,
             assertThat(violations)
                 .extracting("message")
                 .contains("\"^[a-z0-9]{4,10}$\"와 일치해야 합니다");
@@ -70,7 +71,7 @@ class SignupRequestDtoTest implements CommonTest {
         }
     }
 
-// controller 에서 pattern을  @Valid 로 테스트 했음. @Interface valid -> 똑같은 방법 Validation을 사용하는 것
+// controller 에서 pattern을  @Valid 로 테스트 했었음. @Interface valid이것과  똑같은 방법 :  Validation을 사용
     private Set<ConstraintViolation<SignupRequestDto>> validate(SignupRequestDto userRequestDTO) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
